@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "c22c63f1-b7be-4271-87e4-c6890fd20983",
+		"name": "Laybuy Postman Collection - Izaac Crooke",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Laybuy Test Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code + \" \" + pm.response.status;\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"Assert the call responses with a successful status code\", function(){ \r",
+							"    pm.expect(statusCode).to.eql(\"200 OK\");\r",
+							"}); \r",
+							"\r",
+							"pm.test(\"Validate 10 records are returned\", function(){ \r",
+							"    var numberOfRecordsRequired = 10; \r",
+							"    var numberOfRecordsInResponse = jsonData.length; \r",
+							"\r",
+							"    pm.expect(numberOfRecordsRequired).to.eql(numberOfRecordsInResponse);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate you can retrieve data for a single user\", function(){ \r",
+							"    var result = checkAllResults(); \r",
+							"    console.log(result);\r",
+							"    pm.expect(result).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Assert that the users Mrs. Dennis Schulist is contained in the list\", function(){ \r",
+							"    var username = \"Mrs. Dennis Schulist\"; \r",
+							"    var result = checkIndividualResults(username);\r",
+							"\r",
+							"    pm.expect(result).to.eql(true);\r",
+							"}); \r",
+							"\r",
+							"\r",
+							"function checkAllResults(){ \r",
+							"    var testResult = false; \r",
+							"    for(var x = 0; x < jsonData.length; x++){ \r",
+							"        console.log(jsonData[x]);\r",
+							"        if(jsonData[x] == undefined){ \r",
+							"            testResult = false; \r",
+							"            return;\r",
+							"        } else if(jsonData[x] != undefined){ \r",
+							"            testResult = true;\r",
+							"        }\r",
+							"    }\r",
+							"    return testResult;\r",
+							"};\r",
+							"\r",
+							"function checkIndividualResults(username){ \r",
+							"    var testResult = false; \r",
+							"\r",
+							"    for(var x = 0; x < jsonData.length; x++){ \r",
+							"        if(jsonData[x].name == username){ \r",
+							"            testResult = true; \r",
+							"            console.log(jsonData[x]);\r",
+							"        } \r",
+							"    }\r",
+							"\r",
+							"    return testResult; \r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Laybuy Test Single User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Core Details - User 1\r",
+							"var id = pm.response.json().id; \r",
+							"var name = pm.response.json().name; \r",
+							"var username = pm.response.json().username; \r",
+							"var email = pm.response.json().email; \r",
+							"var phone = pm.response.json().phone;\r",
+							"var website = pm.response.json().website;\r",
+							"\r",
+							"//Address Details - User 1 \r",
+							"var street = pm.response.json().address.street; \r",
+							"var suite = pm.response.json().address.suite; \r",
+							"var city = pm.response.json().address.city; \r",
+							"var zipcode = pm.response.json().address.zipcode; \r",
+							"var lat = pm.response.json().address.geo.lat; \r",
+							"var lng = pm.response.json().address.geo.lng;\r",
+							"\r",
+							"//Company Details - User 1 \r",
+							"var companyName = pm.response.json().company.name; \r",
+							"var companyCatchPhrase = pm.response.json().company.catchPhrase; \r",
+							"var companyBs = pm.response.json().company.bs;\r",
+							"\r",
+							"var usersEndpointResponse = pm.response.code + \" \" + pm.response.status;\r",
+							"\r",
+							"pm.test(\"Verify User 1 Core Details\", function(){ \r",
+							"    pm.expect(id).to.eql(1); \r",
+							"    pm.expect(name).to.eql(\"Leanne Graham\"); \r",
+							"    pm.expect(username).to.eql(\"Bret\"); \r",
+							"    pm.expect(email).to.eql(\"Sincere@april.biz\"); \r",
+							"    pm.expect(phone).to.eql(\"1-770-736-8031 x56442\"); \r",
+							"    pm.expect(website).to.eql(\"hildegard.org\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify User 1 Address Details\", function(){ \r",
+							"    pm.expect(street).to.eql(\"Kulas Light\"); \r",
+							"    pm.expect(suite).to.eql(\"Apt. 556\"); \r",
+							"    pm.expect(city).to.eql(\"Gwenborough\"); \r",
+							"    pm.expect(zipcode).to.eql(\"92998-3874\");\r",
+							"    pm.expect(lat).to.eql(\"-37.3159\"); \r",
+							"    pm.expect(lng).to.eql(\"81.1496\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify User 1 Company Details\", function(){ \r",
+							"    pm.expect(companyName).to.eql(\"Romaguera-Crona\"); \r",
+							"    pm.expect(companyCatchPhrase).to.eql(\"Multi-layered client-server neural-net\"); \r",
+							"    pm.expect(companyBs).to.eql(\"harness real-time e-markets\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Endpoint Returns 200 OK\", function(){ \r",
+							"    pm.expect(usersEndpointResponse).to.eql(\"200 OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/users/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
